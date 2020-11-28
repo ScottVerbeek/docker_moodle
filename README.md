@@ -73,3 +73,31 @@ To run tests:
 ./control web
 ./vendor/bin/phpunit
 ```
+
+## Setup Xdebug for VS Code
+
+Open vscode and click `create a launch.json file` then click PHP. VS Code will create a JSON file for you edit it to the following:
+```
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Listen for XDebug",
+            "type": "php",
+            "request": "launch",
+            "port": 9000,
+            "pathMappings": {
+                "/siteroot": "${workspaceFolder}"
+            }
+        },
+        {
+            "name": "Launch currently open script",
+            "type": "php",
+            "request": "launch",
+            "program": "${file}",
+            "cwd": "${fileDirname}",
+            "port": 9000
+        }
+    ]
+}
+```

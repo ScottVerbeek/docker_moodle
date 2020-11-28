@@ -11,6 +11,7 @@ services:
     image: postgres:9.6
     restart: always
     environment:
+      PHP_EXTENTION_XDEBUG: 1
       POSTGRES_PASSWORD: password
       POSTGRES_DB: moodle
       POSTGRES_USER: moodle_user
