@@ -23,7 +23,10 @@ RUN apt-get update -y \
     php-xml \
     php-xmlrpc \
     php-zip \
-    vim 
+    php-redis \
+    php-dev \
+    pkg-config \
+    vim
 
 RUN locale-gen en_AU.UTF-8
 
@@ -33,6 +36,9 @@ RUN mkdir /var/lib/sitedata \
     && chmod 0777 /var/lib/sitedata \
     && mkdir /var/lib/testsitedata \
     && chmod 0777 /var/lib/testsitedata
+
+RUN \
+    pecl install zstd
 
 COPY nginx-site /etc/nginx/sites-available/default
 COPY nginx.conf /etc/nginx/nginx.conf
