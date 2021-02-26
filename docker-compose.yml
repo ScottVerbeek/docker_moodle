@@ -1,36 +1,36 @@
-version: '3'
-
+# The values of a ${EXAMPLE} can be found in .env
+version: '3.9'
 services:
+
+  # Moodle Webservice
   moodle:
     build: ./docker/moodle
     ports:
       - "127.0.0.1:80:80"
     volumes:
-      - ./siteroot:/siteroot
+      - ${SITEROOT}:/var/www/html
+      - ./volumes/phpunitdata:/var/www/phpunitdata
+      - ./volumes/behatdata:/var/www/behatdata
+      - ./volumes/behatfaildumps:/var/www/behatfaildumps
+
+  # Database
   db:
-    image: postgres:9.6
+    image: postgres:${DB_VERSION}
     restart: always
     environment:
+      PHP_EXTENTION_XDEBUG: 1
       POSTGRES_PASSWORD: password
       POSTGRES_DB: moodle
       POSTGRES_USER: moodle_user
     volumes:
-      - 'db:/var/lib/postgresql'
-  test-db:
-    image: postgres:9.6
+      - './volumes/db-data:/var/lib/postgresql'
+
+  # Testdatabase
+  testdb:
+    image: postgres:${DB_VERSION}
     restart: always
     environment:
+      PHP_EXTENTION_XDEBUG: 1
       POSTGRES_PASSWORD: password
       POSTGRES_DB: moodle
       POSTGRES_USER: moodle_user
-    volumes:
-      - 'testdb:/var/lib/postgresql'
-  redis:
-    image: redis
-    restart: always
-    volumes:
-      - 'redis:/var/lib/redis'
-volumes:
-    db:
-    testdb:
-    redis:

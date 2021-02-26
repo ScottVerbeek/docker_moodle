@@ -24,11 +24,11 @@ $CFG->phpunit_dbname    = 'moodle';
 $CFG->phpunit_dbuser    = 'moodle_user';
 $CFG->phpunit_dbpass    = 'password';
 $CFG->phpunit_prefix    = 'phpu_';
-$CFG->phpunit_dataroot = '/var/lib/testsitedata';
+$CFG->phpunit_dataroot = '/var/www/phpunitdata';
 
 $CFG->wwwroot   = 'http://localhost';
 
-$CFG->dataroot  = '/var/lib/sitedata';
+$CFG->dataroot  = '/var/www/moodledata';
 
 $CFG->admin     = 'admin';
 
