@@ -1,30 +1,49 @@
-FROM php:7.2-apache-buster
+FROM ubuntu:18.04
 
-ADD root/ /
-# Fix the original permissions of /tmp, the PHP default upload tmp dir.
-RUN ["chmod", "+x", "/tmp/setup/php-extensions.sh"]
-RUN ["chmod", "+x", "/tmp/setup/sqlsrv-extension.sh"]
-RUN ["chmod", "+x", "/tmp/setup/oci8-extensions.sh"]
-RUN ["chmod", "777", "/tmp"]
-# Install some packages that are useful within the images.
-RUN apt-get update && apt-get install -y \
-    git \
-&& rm -rf /var/lib/apt/lists/*
-
-# Setup the required extensions.
 ARG DEBIAN_FRONTEND=noninteractive
-RUN /tmp/setup/php-extensions.sh
-RUN /tmp/setup/oci8-extensions.sh
 
-RUN pecl install xdebug-2.8.1 \
-    && docker-php-ext-enable xdebug
+RUN apt-get update -y \
+    && apt-get install -y \
+    curl \
+    locales \
+    nginx \
+    php \
+    php-bcmath \
+    php-cli \
+    php-curl \
+    php-fpm \
+    php-gd \
+    php-intl \
+    php-ldap \
+    php-mbstring \
+    php-mysql \
+    php-pgsql \
+    php-soap \
+    php-xdebug \
+    php-xml \
+    php-xmlrpc \
+    php-zip \
+    gcc gnuplot maxima php-yaml \
+    vim
 
-COPY xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+RUN locale-gen en_AU.UTF-8
 
-ENV LD_LIBRARY_PATH /usr/local/instantclient
+RUN cd /usr/local/lib/ && curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
 
+RUN mkdir /var/lib/sitedata \
+    && chmod 0777 /var/lib/sitedata \
+    && mkdir /var/lib/testsitedata \
+    && chmod 0777 /var/lib/testsitedata
 
-RUN mkdir /var/www/moodledata && chown www-data /var/www/moodledata && \
-    mkdir /var/www/phpunitdata && chown www-data /var/www/phpunitdata && \
-    mkdir /var/www/behatdata && chown www-data /var/www/behatdata && \
-    mkdir /var/www/behatfaildumps && chown www-data /var/www/behatfaildumps
+COPY nginx-site /etc/nginx/sites-available/default
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY xdebug.ini /etc/php/7.2/mods-available/xdebug.ini
+COPY php.ini /etc/php/7.2/fpm/php.ini
+COPY php.ini /etc/php/7.2/cli/php.ini
+
+COPY entrypoint.sh /
+RUN chmod +x /entrypoint.sh
+
+WORKDIR /siteroot
+
+ENTRYPOINT ["/entrypoint.sh"]

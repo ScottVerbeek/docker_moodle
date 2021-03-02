@@ -24,13 +24,31 @@ $CFG->phpunit_dbname    = 'moodle';
 $CFG->phpunit_dbuser    = 'moodle_user';
 $CFG->phpunit_dbpass    = 'password';
 $CFG->phpunit_prefix    = 'phpu_';
-$CFG->phpunit_dataroot = '/var/www/phpunitdata';
+$CFG->phpunit_dataroot = '/var/lib/testsitedata';
 
 $CFG->wwwroot   = 'http://localhost';
 
-$CFG->dataroot  = '/var/www/moodledata';
+$CFG->dataroot  = '/var/lib/sitedata';
 
 $CFG->admin     = 'admin';
+define('QTYPE_STACK_TEST_CONFIG_PLATFORM',        'linux');
+define('QTYPE_STACK_TEST_CONFIG_MAXIMAVERSION',   '5.41.0');
+define('QTYPE_STACK_TEST_CONFIG_MAXIMACOMMAND',   'maxima --use-version=5.41.0');
+define('QTYPE_STACK_TEST_CONFIG_MAXIMACOMMANDOPT', '');
+define('QTYPE_STACK_TEST_CONFIG_MAXIMACOMMANDSERVER', '');
+define('QTYPE_STACK_TEST_CONFIG_CASTIMEOUT',      '10');
+define('QTYPE_STACK_TEST_CONFIG_MAXIMALIBRARIES', 'stats, distrib, descriptive, simplex');
+define('QTYPE_STACK_TEST_CONFIG_CASDEBUGGING',    '0');
+define('QTYPE_STACK_TEST_CONFIG_PLOTCOMMAND',     '');
+
+define('QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE', 'db');
+define('QTYPE_STACK_TEST_CONFIG_CASCACHEDBTYPE',    $CFG->dbtype);
+define('QTYPE_STACK_TEST_CONFIG_CASCACHEDBLIBRARY', $CFG->dblibrary);
+define('QTYPE_STACK_TEST_CONFIG_CASCACHEDBHOST',    $CFG->dbhost);
+define('QTYPE_STACK_TEST_CONFIG_CASCACHEDBNAME',    $CFG->dbname);
+define('QTYPE_STACK_TEST_CONFIG_CASCACHEDBUSER',    $CFG->dbuser);
+define('QTYPE_STACK_TEST_CONFIG_CASCACHEDBPASS',    $CFG->dbpass);
+define('QTYPE_STACK_TEST_CONFIG_CASCACHEDBPREFIX',  "cas_");
 
 //Force a debugging mode regardless the settings in the site administration
 @error_reporting(E_ALL | E_STRICT); // NOT FOR PRODUCTION SERVERS!
@@ -44,3 +62,6 @@ require_once(dirname(__FILE__) . '/lib/setup.php');
 
 // There is no php closing tag in this file,
 // it is intentional because it prevents trailing whitespace problems!
+
+
+

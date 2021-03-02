@@ -1,21 +1,22 @@
-# The values of a ${EXAMPLE} can be found in .env
-version: '3.9'
+version: "3"
 services:
-
-  # Moodle Webservice
+  # # # # # # # # # # # # # # #
+  # Moodle service
+  # # # # # # # # # # # # # # #
   moodle:
     build: ./docker/moodle
+    security_opt:
+      - seccomp:unconfined
     ports:
       - "127.0.0.1:80:80"
     volumes:
-      - ${SITEROOT}:/var/www/html
-      - ./volumes/phpunitdata:/var/www/phpunitdata
-      - ./volumes/behatdata:/var/www/behatdata
-      - ./volumes/behatfaildumps:/var/www/behatfaildumps
+      - ./siteroot:/siteroot
 
-  # Database
+  # # # # # # # # # # # # # # #
+  # Database services
+  # # # # # # # # # # # # # # #
   db:
-    image: postgres:${DB_VERSION}
+    image: postgres:latest
     restart: always
     environment:
       PHP_EXTENTION_XDEBUG: 1
@@ -23,14 +24,56 @@ services:
       POSTGRES_DB: moodle
       POSTGRES_USER: moodle_user
     volumes:
-      - './volumes/db-data:/var/lib/postgresql'
-
-  # Testdatabase
-  testdb:
-    image: postgres:${DB_VERSION}
+      - 'db:/var/lib/postgresql'
+  test-db:
+    image: postgres:latest
     restart: always
     environment:
       PHP_EXTENTION_XDEBUG: 1
       POSTGRES_PASSWORD: password
       POSTGRES_DB: moodle
       POSTGRES_USER: moodle_user
+    volumes:
+      - 'testdb:/var/lib/postgresql'
+  cache-db:
+    image: postgres:latest
+    restart: always
+    environment:
+      PHP_EXTENTION_XDEBUG: 1
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: moodle
+      POSTGRES_USER: moodle_user
+    volumes:
+      - 'cachedb:/var/lib/postgresql'
+
+  # # # # # # # # # # # # # # #
+  # Additonal services
+  # # # # # # # # # # # # # # #
+  maximal-pool:
+    image: unihalle/maximapool:stack-2017121800
+    restart: always
+    environment:
+        - MAXIMAPOOL_ADMIN_PASSWORD=password
+    ports:
+        - "127.0.0.1:8765:8080"
+    volumes:
+        - "./volumes/pool.conf:/opt/maximapool/pool.conf:ro"
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "moodle@moodle.com"
+      PGADMIN_DEFAULT_PASSWORD: "moodle"
+    ports:
+      - 127.0.0.1:8088:80
+
+  redis:
+    image: redis
+    restart: always
+    volumes:
+      - 'redis:/var/lib/redis'
+volumes:
+  db:
+  testdb:
+  cachedb:
+  redis:
