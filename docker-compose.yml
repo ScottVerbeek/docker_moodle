@@ -19,7 +19,6 @@ services:
     image: postgres:latest
     restart: always
     environment:
-      PHP_EXTENTION_XDEBUG: 1
       POSTGRES_PASSWORD: password
       POSTGRES_DB: moodle
       POSTGRES_USER: moodle_user
@@ -29,7 +28,6 @@ services:
     image: postgres:latest
     restart: always
     environment:
-      PHP_EXTENTION_XDEBUG: 1
       POSTGRES_PASSWORD: password
       POSTGRES_DB: moodle
       POSTGRES_USER: moodle_user
