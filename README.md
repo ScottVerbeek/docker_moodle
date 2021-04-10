@@ -85,9 +85,9 @@ Open vscode and click `create a launch.json file` then click PHP. VS Code will c
             "name": "Listen for XDebug",
             "type": "php",
             "request": "launch",
-            "port": 9000,
+            "port": 9003,
             "pathMappings": {
-                "/siteroot": "${workspaceFolder}"
+                "/var/www/html": "${workspaceFolder}"
             }
         },
         {
@@ -96,7 +96,7 @@ Open vscode and click `create a launch.json file` then click PHP. VS Code will c
             "request": "launch",
             "program": "${file}",
             "cwd": "${fileDirname}",
-            "port": 9000
+            "port": 9003
         }
     ]
 }

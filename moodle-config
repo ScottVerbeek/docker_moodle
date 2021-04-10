@@ -4,6 +4,9 @@ unset($CFG);
 global $CFG;
 $CFG = new stdClass();
 
+// #################################################################################################################################
+// # Main database configuration
+// #################################################################################################################################
 $CFG->dbtype    = 'pgsql';
 $CFG->dblibrary = 'native';
 $CFG->dbhost    = 'db';
@@ -11,12 +14,15 @@ $CFG->dbname    = 'moodle';
 $CFG->dbuser    = 'moodle_user';
 $CFG->dbpass    = 'password';
 $CFG->prefix    = 'mdl_';
-$CFG->dboptions = array (
-  'dbpersist' => 0,
-  'dbport' => '',
-  'dbsocket' => '',
+$CFG->dboptions =  array (
+  'dbpersist'   => 0,
+  'dbport'      => '',
+  'dbsocket'    => '',
 );
 
+// #################################################################################################################################
+// # PHPUnit database configuration
+// #################################################################################################################################
 $CFG->phpunit_dbtype    = 'pgsql';
 $CFG->phpunit_dblibrary = 'native';
 $CFG->phpunit_dbhost    = 'test-db';
@@ -24,33 +30,33 @@ $CFG->phpunit_dbname    = 'moodle';
 $CFG->phpunit_dbuser    = 'moodle_user';
 $CFG->phpunit_dbpass    = 'password';
 $CFG->phpunit_prefix    = 'phpu_';
-$CFG->phpunit_dataroot = '/var/lib/testsitedata';
 
-$CFG->wwwroot   = 'http://localhost';
-
-$CFG->dataroot  = '/var/lib/sitedata';
-
-$CFG->admin     = 'admin';
-
-//Force a debugging mode regardless the settings in the site administration
-@error_reporting(E_ALL | E_STRICT); // NOT FOR PRODUCTION SERVERS!
-$CFG->debug = (E_ALL | E_STRICT);   // === DEBUG_DEVELOPER - NOT FOR PRODUCTION SERVERS!
-
-$CFG->noemailever = true;
-
+// #################################################################################################################################
+// # Dataroot configurations
+// #################################################################################################################################
+$CFG->wwwroot              = 'http://localhost';
+$CFG->dataroot             = '/var/www/moodledata';
+$CFG->behat_dataroot       = '/var/www/behatdata';
+$CFG->phpunit_dataroot     = '/var/www/phpunitdata';
 $CFG->directorypermissions = 0777;
 
-$CFG->session_handler_class = '\core\session\redis';
-$CFG->session_redis_host = 'redis';
-$CFG->session_redis_port = 6379;  // Optional.
-$CFG->session_redis_database = 0;  // Optional, default is db 0.
-$CFG->session_redis_prefix = ''; // Optional, default is don't set one.
-$CFG->session_redis_acquire_lock_timeout = 120;
-$CFG->session_redis_lock_expire = 300;
-$CFG->session_redis_serializer_use_igbinary = true;
-$CFG->session_redis_compressor = 'zstd';
+// #################################################################################################################################
+// # Developer configurations
+// #################################################################################################################################
+$CFG->admin                         = 'admin';
+$CFG->noreplyaddress                = 'noreply@example.com';
+$CFG->tool_generator_users_password = 'password';
+$CFG->passwordpolicy                = 0;
+$CFG->cronclionly                   = 0;
+$CFG->allowthemechangeonurl         = 1;
 
-require_once(dirname(__FILE__) . '/lib/setup.php');
+// #################################################################################################################################
+// # Debugging configurations
+// #################################################################################################################################
+$CFG->debug           = (E_ALL | E_STRICT); // DEBUG_DEVELOPER
+$CFG->debugdisplay    = 1;
+$CFG->debugstringids  = 1; // Add strings=1 to url to get string ids.
+$CFG->perfdebug       = 15;
+$CFG->debugpageinfo   = 1;
 
-// There is no php closing tag in this file,
-// it is intentional because it prevents trailing whitespace problems!
+require_once(__DIR__ . '/lib/setup.php');
