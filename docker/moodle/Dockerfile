@@ -68,5 +68,6 @@ RUN mkdir /var/www/moodledata && chmod 0777 /var/www/moodledata \
 
 #COPY php.ini /usr/local/etc/php/php.ini
 COPY xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+COPY mailhog.conf /etc/apache2/conf-enabled/apache2_mailhog.conf
 
 WORKDIR /var/www/html

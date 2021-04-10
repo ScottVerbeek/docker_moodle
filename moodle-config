@@ -44,7 +44,6 @@ $CFG->directorypermissions = 0777;
 // # Developer configurations
 // #################################################################################################################################
 $CFG->admin                         = 'admin';
-$CFG->noreplyaddress                = 'noreply@example.com';
 $CFG->tool_generator_users_password = 'password';
 $CFG->passwordpolicy                = 0;
 $CFG->cronclionly                   = 0;
@@ -58,5 +57,11 @@ $CFG->debugdisplay    = 1;
 $CFG->debugstringids  = 1; // Add strings=1 to url to get string ids.
 $CFG->perfdebug       = 15;
 $CFG->debugpageinfo   = 1;
+
+// #################################################################################################################################
+// # Email configurations
+// #################################################################################################################################
+$CFG->smtphosts      = 'mailhog:1025';
+$CFG->noreplyaddress = 'noreply@example.com';
 
 require_once(__DIR__ . '/lib/setup.php');

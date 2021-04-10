@@ -7,6 +7,8 @@ services:
       - "127.0.0.1:80:80"
     volumes:
       - ./siteroot:/var/www/html
+    depends_on:
+      - mailhog
   db:
     image: postgres:9.6
     environment:
@@ -24,11 +26,11 @@ services:
       POSTGRES_USER: moodle_user
     volumes:
       - 'testdb:/var/lib/postgresql'
-  redis:
-    image: redis
-    volumes:
-      - 'redis:/var/lib/redis'
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "127.0.0.1:1025:8025"
 volumes:
     db:
     testdb:
-    redis:
+
