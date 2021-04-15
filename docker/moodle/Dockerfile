@@ -1,4 +1,4 @@
-FROM php:7.2-apache-buster
+FROM php:7.4-apache-buster
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -36,7 +36,7 @@ RUN apt-get update \
 RUN docker-php-ext-install ${PACKAGES_PHP}
 
 # GD.
-RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
     && docker-php-ext-install gd
 
 # LDAP.
@@ -48,7 +48,7 @@ RUN pecl install memcached mongodb redis apcu igbinary solr uuid xdebug \
     && docker-php-ext-enable memcached mongodb redis apcu igbinary solr uuid xdebug
 
 # ZIP
-RUN docker-php-ext-configure zip --with-libzip \
+RUN docker-php-ext-configure zip \
     && docker-php-ext-install zip
 
 # Image clean up, keeps size down.
