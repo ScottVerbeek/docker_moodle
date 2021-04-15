@@ -32,6 +32,9 @@ RUN apt-get update \
     ${PACKAGES_RUNTIME} \
     ${PROGRAMS}
 
+# Generate the locales configuration for both Australia
+RUN echo 'en_AU.UTF-8 UTF-8' > /etc/locale.gen && locale-gen
+
 # Install PHP packages.
 RUN docker-php-ext-install ${PACKAGES_PHP}
 
@@ -57,9 +60,6 @@ RUN pecl clear-cache \
     && apt-get autoremove -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
-
-# Set local AU.
-RUN locale-gen en_AU.UTF-8
 
 # Create dataroots.
 RUN mkdir /var/www/moodledata && chmod 0777 /var/www/moodledata \
