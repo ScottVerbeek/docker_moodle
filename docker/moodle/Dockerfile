@@ -66,7 +66,7 @@ RUN mkdir /var/www/moodledata && chmod 0777 /var/www/moodledata \
     && mkdir /var/www/phpunitdata && chmod 0777 /var/www/phpunitdata \
     && mkdir /var/www/behatdata && chmod 0777 /var/www/behatdata
 
-#COPY php.ini /usr/local/etc/php/php.ini
+COPY php.ini /usr/local/etc/php/php.ini
 COPY xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 COPY mailhog.conf /etc/apache2/conf-enabled/apache2_mailhog.conf
 
