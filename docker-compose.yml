@@ -1,5 +1,8 @@
 version: '3'
 
+networks:
+  moodle:
+
 services:
   moodle:
     build: ./docker/moodle
@@ -9,6 +12,8 @@ services:
       - ./siteroot:/var/www/html
     depends_on:
       - mailhog
+    networks:
+      - moodle
   db:
     image: postgres:9.6
     environment:
@@ -17,7 +22,9 @@ services:
       POSTGRES_DB: moodle
       POSTGRES_USER: moodle_user
     volumes:
-      - 'db:/var/lib/postgresql'
+      - 'db:/var/lib/postgresql/data'
+    networks:
+      - moodle
   test-db:
     image: postgres:9.6
     environment:
@@ -25,11 +32,15 @@ services:
       POSTGRES_DB: moodle
       POSTGRES_USER: moodle_user
     volumes:
-      - 'testdb:/var/lib/postgresql'
+      - 'testdb:/var/lib/postgresql/data'
+    networks:
+      - moodle
   mailhog:
     image: mailhog/mailhog
     ports:
       - "127.0.0.1:1025:8025"
+    networks:
+      - moodle
 volumes:
     db:
     testdb:
